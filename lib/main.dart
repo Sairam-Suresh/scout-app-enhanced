@@ -1,0 +1,86 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:scout_app_enhanced/screens/main/announcements/announcements.dart';
+import 'package:scout_app_enhanced/screens/main/experiences/experiences.dart';
+import 'package:scout_app_enhanced/screens/main/root.dart';
+import 'package:scout_app_enhanced/screens/main/settings/settings.dart';
+
+import 'screens/main/badge_catalogue/home.dart';
+
+void main() {
+  runApp(const ProviderScope(child: MyApp()));
+}
+
+final _router = GoRouter(
+  initialLocation: "/home",
+  routes: [
+    ShellRoute(
+        builder: (context, state, child) => Root(
+              child: child,
+            ),
+        // pageBuilder: (context, state, child) => CustomTransitionPage(
+        //       child: Root(
+        //         child: child,
+        //       ),
+        //       transitionsBuilder:
+        //           (context, animation, secondaryAnimation, child) =>
+        //               FadeTransition(opacity: animation, child: child),
+        //     ),
+        routes: [
+          GoRoute(
+            path: '/home',
+            pageBuilder: (context, state) => CustomTransitionPage(
+                child: const Home(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) =>
+                        const Home(),
+                maintainState: false),
+          ),
+          GoRoute(
+            path: '/experiences',
+            pageBuilder: (context, state) => CustomTransitionPage(
+                child: const Experiences(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) =>
+                        const Experiences(),
+                maintainState: false),
+          ),
+          GoRoute(
+            path: '/announcements',
+            pageBuilder: (context, state) => CustomTransitionPage(
+                child: const Announcements(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) =>
+                        const Announcements(),
+                maintainState: false),
+          ),
+          GoRoute(
+            path: '/settings',
+            pageBuilder: (context, state) => CustomTransitionPage(
+                child: const Settings(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) =>
+                        const Settings(),
+                maintainState: false),
+          ),
+        ])
+  ],
+);
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      routerConfig: _router,
+    );
+  }
+}
