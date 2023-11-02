@@ -1,10 +1,12 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:scout_app_enhanced/logic/constants.dart';
 
-@riverpod
-class RootIndexNotifier extends Notifier<Tabs> {
+part 'root_current_index_provider.g.dart';
+
+@Riverpod(keepAlive: true)
+class RootIndexNotifier extends _$RootIndexNotifier {
   @override
   Tabs build() => Tabs.home;
 
@@ -17,6 +19,3 @@ class RootIndexNotifier extends Notifier<Tabs> {
     context.go("/${state.name}");
   }
 }
-
-final rootIndexProvider =
-    NotifierProvider<RootIndexNotifier, Tabs>(RootIndexNotifier.new);

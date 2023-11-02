@@ -11,7 +11,7 @@ class Root extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var a = ref.read(rootIndexProvider);
+    var a = ref.watch(rootIndexNotifierProvider);
 
     return Scaffold(
       body: child,
@@ -39,7 +39,7 @@ class Root extends HookConsumerWidget {
               throw Exception("There can't be values that can bypass this!");
           }
           ref
-              .read(rootIndexProvider.notifier)
+              .read(rootIndexNotifierProvider.notifier)
               .changeTabAndGo(context: context, tab: tab);
         },
       ),

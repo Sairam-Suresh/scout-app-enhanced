@@ -18,7 +18,7 @@ class Home extends HookConsumerWidget {
               onPressed: () {
                 // context.go("/experiences");
                 ref
-                    .read(rootIndexProvider.notifier)
+                    .read(rootIndexNotifierProvider.notifier)
                     .changeTabAndGo(context: context, tab: Tabs.experiences);
               },
               child: const Text("Go")),
