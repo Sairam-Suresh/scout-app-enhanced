@@ -1,4 +1,4 @@
-enum ActiveTab {
+enum Tabs {
   home,
   experiences,
   announcements,

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:scout_app_enhanced/logic/root_current_index_provider.dart';
 
 import '../../logic/constants.dart';
+import '../../logic/current_index_provider/root_current_index_provider.dart';
 
 class Root extends HookConsumerWidget {
   const Root({super.key, required this.child});
@@ -17,7 +16,7 @@ class Root extends HookConsumerWidget {
     return Scaffold(
       body: child,
       bottomNavigationBar: NavigationBar(
-        selectedIndex: ActiveTab.values.indexOf(a),
+        selectedIndex: Tabs.values.indexOf(a),
         destinations: const [
           NavigationDestination(icon: Icon(Icons.badge), label: "Overview"),
           NavigationDestination(icon: Icon(Icons.book), label: "Experiences"),
@@ -26,21 +25,22 @@ class Root extends HookConsumerWidget {
           NavigationDestination(icon: Icon(Icons.settings), label: "Settings"),
         ],
         onDestinationSelected: (index) {
-          ActiveTab? tab;
+          Tabs? tab;
           switch (index) {
             case 0:
-              tab = ActiveTab.home;
+              tab = Tabs.home;
             case 1:
-              tab = ActiveTab.experiences;
+              tab = Tabs.experiences;
             case 2:
-              tab = ActiveTab.announcements;
+              tab = Tabs.announcements;
             case 3:
-              tab = ActiveTab.settings;
+              tab = Tabs.settings;
             default:
-              throw Exception("There cant be values that can bypass this!");
+              throw Exception("There can't be values that can bypass this!");
           }
-          ref.read(rootIndexProvider.notifier).changeTab(tab);
-          context.go("/${tab.name}");
+          ref
+              .read(rootIndexProvider.notifier)
+              .changeTabAndGo(context: context, tab: tab);
         },
       ),
     );

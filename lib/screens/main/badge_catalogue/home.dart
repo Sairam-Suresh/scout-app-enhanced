@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:scout_app_enhanced/logic/constants.dart';
+
+import '../../../logic/current_index_provider/root_current_index_provider.dart';
 
 class Home extends HookConsumerWidget {
   const Home({super.key});
@@ -10,8 +13,15 @@ class Home extends HookConsumerWidget {
         appBar: AppBar(
           title: const Text('Badge Catalogue'),
         ),
-        body: const Center(
-          child: Text("Home"),
+        body: Center(
+          child: FilledButton(
+              onPressed: () {
+                // context.go("/experiences");
+                ref
+                    .read(rootIndexProvider.notifier)
+                    .changeTabAndGo(context: context, tab: Tabs.experiences);
+              },
+              child: const Text("Go")),
         ));
   }
 }
