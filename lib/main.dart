@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:scout_app_enhanced/screens/main/announcements/announcements.dart';
+import 'package:scout_app_enhanced/screens/main/badge_catalogue/search.dart';
 import 'package:scout_app_enhanced/screens/main/experiences/experiences.dart';
 import 'package:scout_app_enhanced/screens/main/root.dart';
 import 'package:scout_app_enhanced/screens/main/settings/settings.dart';
@@ -30,6 +31,12 @@ final _router = GoRouter(
         routes: [
           GoRoute(
             path: '/home',
+            routes: [
+              GoRoute(
+                path: 'search',
+                builder: (context, state) => const BadgeSearch(),
+              )
+            ],
             pageBuilder: (context, state) => CustomTransitionPage(
                 child: const Home(),
                 transitionsBuilder:
