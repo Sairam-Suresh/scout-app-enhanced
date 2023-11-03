@@ -11,7 +11,9 @@ class Home extends HookConsumerWidget {
           title: const Text('Badge Catalogue'),
         ),
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {},
+          onPressed: () {
+            throw Exception("This is a test Exception.");
+          },
           isExtended: true,
           label: const Row(
             mainAxisSize: MainAxisSize.min,
