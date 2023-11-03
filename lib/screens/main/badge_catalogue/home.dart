@@ -27,6 +27,6 @@ class Home extends HookConsumerWidget {
             ],
           ),
         ),
-        body: Text("hel"));
+        body: const Text("hel"));
   }
 }
