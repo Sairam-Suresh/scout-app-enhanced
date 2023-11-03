@@ -48,3 +48,9 @@ app.*.map.json
 /lib/logic/current_index_provider/root_current_index_provider.g.dart
 /lib/logic/scout_badge/scout_badge.freezed.dart
 /lib/logic/scout_badge/scout_badge.g.dart
+
+# Firebase Sensitive
+/lib/firebase_options.dart
+/ios/firebase_app_id_file.json
+/android/app/google-services.json
+/ios/Runner/GoogleService-Info.plist
