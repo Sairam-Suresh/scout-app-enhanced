@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:scout_app_enhanced/logic/constants.dart';
-
-import '../../../logic/current_index_provider/root_current_index_provider.dart';
 
 class Home extends HookConsumerWidget {
   const Home({super.key});
@@ -13,15 +10,23 @@ class Home extends HookConsumerWidget {
         appBar: AppBar(
           title: const Text('Badge Catalogue'),
         ),
-        body: Center(
-          child: FilledButton(
-              onPressed: () {
-                // context.go("/experiences");
-                ref
-                    .read(rootIndexNotifierProvider.notifier)
-                    .changeTabAndGo(context: context, tab: Tabs.experiences);
-              },
-              child: const Text("Go")),
-        ));
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {},
+          isExtended: true,
+          label: const Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.search),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                "Search",
+                style: TextStyle(fontSize: 17),
+              )
+            ],
+          ),
+        ),
+        body: Text("hel"));
   }
 }
