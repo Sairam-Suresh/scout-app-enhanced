@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:scout_app_enhanced/logic/scout_badge_provider/scout_badge_provider.dart';
 
 class Home extends HookConsumerWidget {
   const Home({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var scoutBadges = ref.watch(scoutBadgeNotifierProvider);
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('Badge Catalogue'),
         ),
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            throw Exception("This is a test Exception.");
-          },
+          onPressed: () {},
           isExtended: true,
           label: const Row(
             mainAxisSize: MainAxisSize.min,
@@ -29,6 +30,10 @@ class Home extends HookConsumerWidget {
             ],
           ),
         ),
-        body: const Text("hel"));
+        body: Center(
+            child: scoutBadges.when(
+                data: (data) => Text(data.toString()),
+                error: (error, stackTrace) => Text("Error occurred: $error"),
+                loading: () => const CircularProgressIndicator())));
   }
 }
