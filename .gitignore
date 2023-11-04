@@ -58,3 +58,5 @@ app.*.map.json
 /ios/Runner/GoogleService-Info.plist
 /lib/logic/scout_data_providers/scout_badge_provider.g.dart
 /lib/logic/scout_data_providers/scout_badges_provider.g.dart
+/lib/logic/scout_data_providers/scout_notes_provider.g.dart
+/lib/logic/scout_data_providers/scout_reflections_provider.g.dart
