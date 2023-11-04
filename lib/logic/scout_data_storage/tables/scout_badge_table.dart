@@ -1,7 +1,7 @@
 // ignore_for_file: recursive_getters
 
 import 'package:drift/drift.dart';
-import 'package:scout_app_enhanced/logic/scout_badge_storage/database.dart';
+import 'package:scout_app_enhanced/logic/scout_data_storage/database.dart';
 
 class ScoutBadgeItems extends Table {
   IntColumn get id => integer().autoIncrement()();
