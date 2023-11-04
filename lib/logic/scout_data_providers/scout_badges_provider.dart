@@ -65,8 +65,24 @@ class ScoutBadgesNotifier extends _$ScoutBadgesNotifier {
     for (List<String> i in splitUrls) {
       for (ScoutBadgeItemsCompanion badge
           in (await Future.wait(i.map((e) => _parseScoutDataUrl(e))))) {
-        db!.into(db!.scoutBadgeItems).insert(badge);
-        ref.invalidateSelf();
+        var dbUpdateAttempts = 0;
+
+        while (true) {
+          try {
+            db!.into(db!.scoutBadgeItems).insert(badge);
+            ref.invalidateSelf();
+            dbUpdateAttempts++;
+            break;
+          } catch (e) {
+            if (dbUpdateAttempts <= 3) {
+              await Future.delayed(const Duration(seconds: 1));
+              continue;
+            } else {
+              throw Exception(
+                  "Took more than 3 attempts to try to update the database");
+            }
+          }
+        }
       }
     }
   }
