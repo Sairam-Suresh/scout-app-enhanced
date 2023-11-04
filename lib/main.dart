@@ -12,11 +12,13 @@ import 'package:scout_app_enhanced/screens/main/experiences/experiences.dart';
 import 'package:scout_app_enhanced/screens/main/root.dart';
 import 'package:scout_app_enhanced/screens/main/settings/settings.dart';
 
+import 'logic/scout_badge_storage/database.dart';
 import 'screens/main/badge_catalogue/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Firebase Crashlytics
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
@@ -26,6 +28,28 @@ void main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+
+  // Drift
+
+  // TODO: Move this to a riverpod provider as an abstraction
+  final database = AppDatabase();
+
+  // await database.into(database.scoutBadgeItems).insert(
+  //     ScoutBadgeItemsCompanion.insert(
+  //         badgeGiven: "",
+  //         certGiven: "",
+  //         completed: "",
+  //         description: "Hello world!",
+  //         imageUrl: "",
+  //         name: "",
+  //         parsedGoogleSheetInfo: false,
+  //         url: ""));
+
+  List<ScoutBadgeItem> allItems =
+      await database.select(database.scoutBadgeItems).get();
+
+  print('items in database: $allItems');
+
   runApp(const ProviderScope(child: MyApp()));
 }
 
