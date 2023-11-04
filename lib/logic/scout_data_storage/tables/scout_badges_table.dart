@@ -2,11 +2,13 @@
 
 import 'package:drift/drift.dart';
 import 'package:scout_app_enhanced/logic/scout_data_storage/database.dart';
+import 'package:uuid/uuid.dart';
 
 class ScoutBadgeItems extends Table {
   IntColumn get id => integer().autoIncrement()();
 
-  IntColumn get uuid => integer().unique()();
+  TextColumn get uuid =>
+      text().unique().withDefault(Constant(const Uuid().v1().toString()))();
 
   TextColumn get url => text().check(url.isNotValue(""))();
   TextColumn get name => text().check(name.isNotValue(""))();
