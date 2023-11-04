@@ -4,7 +4,7 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'package:scout_app_enhanced/logic/scout_data_storage/tables/scout_badge_table.dart';
+import 'package:scout_app_enhanced/logic/scout_data_storage/tables/scout_badges_table.dart';
 import 'package:scout_app_enhanced/logic/scout_data_storage/tables/scout_notes_table.dart';
 import 'package:scout_app_enhanced/logic/scout_data_storage/tables/scout_reflections_table.dart';
 

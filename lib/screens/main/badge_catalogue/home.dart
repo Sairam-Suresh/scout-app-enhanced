@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:scout_app_enhanced/logic/scout_data_providers/scout_badge_provider.dart';
+import 'package:scout_app_enhanced/logic/scout_data_providers/scout_badges_provider.dart';
 
 class Home extends HookConsumerWidget {
   const Home({super.key});
