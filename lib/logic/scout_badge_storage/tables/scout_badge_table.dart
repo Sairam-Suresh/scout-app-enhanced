@@ -1,14 +1,24 @@
+// ignore_for_file: recursive_getters
+
 import 'package:drift/drift.dart';
+import 'package:scout_app_enhanced/logic/scout_badge_storage/database.dart';
 
 class ScoutBadgeItems extends Table {
   IntColumn get id => integer().autoIncrement()();
 
-  TextColumn get url => text()();
-  TextColumn get name => text()();
-  TextColumn get description => text()();
-  TextColumn get imageUrl => text()();
-  BoolColumn get parsedGoogleSheetInfo => boolean()();
-  TextColumn get completed => text()();
-  TextColumn get badgeGiven => text()();
-  TextColumn get certGiven => text()();
+  IntColumn get uuid => integer().unique()();
+
+  TextColumn get url => text().check(url.isNotValue(""))();
+  TextColumn get name => text().check(name.isNotValue(""))();
+  TextColumn get description => text().check(description.isNotValue(""))();
+  TextColumn get imageUrl => text().check(imageUrl.isNotValue(""))();
+
+  TextColumn get completed => text().nullable()();
+  TextColumn get badgeGiven => text().nullable()();
+  TextColumn get certGiven => text().nullable()();
+}
+
+extension ParsedFromSourcesExtension on ScoutBadgeItem {
+  bool get parsedInfoFromGSheets =>
+      (completed != null && badgeGiven != null && certGiven != null);
 }
