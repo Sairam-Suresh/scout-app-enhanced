@@ -7,7 +7,7 @@ class Home extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var scoutBadges = ref.watch(scoutBadgeNotifierProvider);
+    var scoutBadges = ref.watch(scoutBadgesNotifierProvider);
 
     return Scaffold(
         appBar: AppBar(
