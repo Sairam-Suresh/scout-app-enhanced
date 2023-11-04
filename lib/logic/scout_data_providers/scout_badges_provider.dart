@@ -22,7 +22,7 @@ class ScoutBadgesNotifier extends _$ScoutBadgesNotifier {
     return db!.select(db!.scoutBadgeItems).get();
   }
 
-  Future<void> test() async {
+  Future<void> scrapeScoutsWebsiteAndUpdateDb() async {
     List<String> parsedUrls = [];
     var firstGetAllBadgesCompleter = Completer();
 
