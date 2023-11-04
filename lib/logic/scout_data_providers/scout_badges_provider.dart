@@ -5,8 +5,8 @@ import 'package:drift/drift.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:quiver/iterables.dart' show partition;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:scout_app_enhanced/logic/database_provider/scout_db_provider.dart';
 import 'package:scout_app_enhanced/logic/scout_data_storage/database.dart';
-import 'package:scout_app_enhanced/logic/scout_db_provider.dart';
 import 'package:uuid/uuid.dart';
 
 part 'scout_badges_provider.g.dart';

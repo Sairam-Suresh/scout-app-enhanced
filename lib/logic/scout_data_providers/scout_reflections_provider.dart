@@ -1,6 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:scout_app_enhanced/logic/database_provider/scout_db_provider.dart';
 import 'package:scout_app_enhanced/logic/scout_data_storage/database.dart';
-import 'package:scout_app_enhanced/logic/scout_db_provider.dart';
 
 part 'scout_reflections_provider.g.dart';
 

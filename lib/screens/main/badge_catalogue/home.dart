@@ -14,7 +14,11 @@ class Home extends HookConsumerWidget {
           title: const Text('Badge Catalogue'),
         ),
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {},
+          onPressed: () async {
+            ref
+                .read(scoutBadgesNotifierProvider.notifier)
+                .scrapeScoutsWebsiteAndUpdateDb();
+          },
           isExtended: true,
           label: const Row(
             mainAxisSize: MainAxisSize.min,
