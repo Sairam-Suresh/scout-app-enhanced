@@ -86,13 +86,6 @@ PODS:
     - sqlite3/fts5
     - sqlite3/perf-threadsafe
     - sqlite3/rtree
-  - video_player_avfoundation (0.0.1):
-    - Flutter
-    - FlutterMacOS
-  - wakelock (0.0.1):
-    - Flutter
-  - webview_flutter_wkwebview (0.0.1):
-    - Flutter
 
 DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -101,9 +94,6 @@ DEPENDENCIES:
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - sqlite3_flutter_libs (from `.symlinks/plugins/sqlite3_flutter_libs/ios`)
-  - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/darwin`)
-  - wakelock (from `.symlinks/plugins/wakelock/ios`)
-  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
 SPEC REPOS:
   trunk:
@@ -135,12 +125,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   sqlite3_flutter_libs:
     :path: ".symlinks/plugins/sqlite3_flutter_libs/ios"
-  video_player_avfoundation:
-    :path: ".symlinks/plugins/video_player_avfoundation/darwin"
-  wakelock:
-    :path: ".symlinks/plugins/wakelock/ios"
-  webview_flutter_wkwebview:
-    :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
   Firebase: 25899099b77d255a636e3579c3d9dce10ec150d5
@@ -163,9 +147,6 @@ SPEC CHECKSUMS:
   PromisesSwift: 28dca69a9c40779916ac2d6985a0192a5cb4a265
   sqlite3: 6e2d4a4879854d0ec86b476bf3c3e30870bac273
   sqlite3_flutter_libs: eb769059df0356dc52ddda040f09cacc9391a7cf
-  video_player_avfoundation: 8563f13d8fc8b2c29dc2d09e60b660e4e8128837
-  wakelock: b0843b2479edbf6504d8d262c2959446f35373aa
-  webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
 
 PODFILE CHECKSUM: 70d9d25280d0dd177a5f637cdb0f0b0b12c6a189
 
