@@ -22,6 +22,13 @@ class ScoutBadgesNotifier extends _$ScoutBadgesNotifier {
     return db!.select(db!.scoutBadgeItems).get();
   }
 
+  Future<ScoutBadgeItem> obtainBadgeByName(String name) async {
+    return await (db!.select(db!.scoutBadgeItems)
+          ..where((tbl) => tbl.name.equals(name))
+          ..limit(1))
+        .getSingle();
+  }
+
   Future<void> scrapeScoutsWebsiteAndUpdateDb() async {
     List<String> parsedUrls = [];
     var firstGetAllBadgesCompleter = Completer();
