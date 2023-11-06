@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:scout_app_enhanced/firebase_options.dart';
 import 'package:scout_app_enhanced/screens/main/announcements/announcements.dart';
+import 'package:scout_app_enhanced/screens/main/badge_catalogue/badge_viewer.dart';
 import 'package:scout_app_enhanced/screens/main/badge_catalogue/search.dart';
 import 'package:scout_app_enhanced/screens/main/experiences/experiences.dart';
 import 'package:scout_app_enhanced/screens/main/root.dart';
@@ -55,7 +56,12 @@ final _router = GoRouter(
               GoRoute(
                 path: 'search',
                 builder: (context, state) => const BadgeSearch(),
-              )
+              ),
+              GoRoute(
+                path: 'badge/:name',
+                builder: (context, state) =>
+                    BadgeViewer(name: state.pathParameters["name"]!),
+              ),
             ],
             pageBuilder: (context, state) => CustomTransitionPage(
                 child: const Home(),

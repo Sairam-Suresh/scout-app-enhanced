@@ -14,7 +14,7 @@ class ScoutBadgeListTile extends StatelessWidget {
         if (context.canPop()) {
           Navigator.of(context).pop();
         }
-        context.go("/badge/${badge.name.replaceAll(" ", "_")}");
+        context.push("/home/badge/${badge.name.replaceAll(" ", "_")}");
       },
       leading: SizedBox(
         height: 50,
