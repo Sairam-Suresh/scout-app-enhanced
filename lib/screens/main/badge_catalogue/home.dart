@@ -23,9 +23,6 @@ class Home extends HookConsumerWidget {
     }, [scoutBadges.hasValue]);
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Badge Catalogue'),
-        ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
             ref
@@ -47,10 +44,29 @@ class Home extends HookConsumerWidget {
             ],
           ),
         ),
-        body: ListView.builder(
-          itemCount: currentBadges.value.length,
-          itemBuilder: (context, index) =>
-              ScoutBadgeListTile(badge: currentBadges.value[index]),
+        body: SafeArea(
+          child: Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: SearchBar(
+                  leading: Padding(
+                    padding: EdgeInsets.only(left: 8, top: 8, bottom: 8),
+                    child: Icon(Icons.search),
+                  ),
+                  hintText: "Search for a Badge",
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: currentBadges.value.length,
+                  itemBuilder: (context, index) =>
+                      ScoutBadgeListTile(badge: currentBadges.value[index]),
+                ),
+              ),
+            ],
+          ),
         ));
   }
 }
