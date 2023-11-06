@@ -35,7 +35,7 @@ class ScoutBadgeListTile extends StatelessWidget {
         ),
       ),
       title: Text(badge.name),
-      trailing: (badge.completed != null || badge.completed != "")
+      trailing: (badge.completed != null && badge.completed != "")
           ? const Icon(Icons.check)
           : null,
     );
