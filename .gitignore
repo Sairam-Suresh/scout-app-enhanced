@@ -59,3 +59,4 @@ app.*.map.json
 /lib/logic/scout_data_providers/scout_notes_provider.g.dart
 /lib/logic/scout_data_providers/scout_reflections_provider.g.dart
 /lib/logic/database_provider/scout_db_provider.g.dart
+/lib/logic/google_auth_provider/auth_provider.g.dart
