@@ -44,67 +44,46 @@ class Home extends HookConsumerWidget {
     }, [scoutBadges, searchText.value]);
 
     return Scaffold(
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () async {
-            ref
-                .read(scoutBadgesNotifierProvider.notifier)
-                .scrapeScoutsWebsiteAndUpdateDb();
-          },
-          isExtended: true,
-          label: const Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.search),
-              SizedBox(
-                width: 10,
-              ),
-              Text(
-                "Search",
-                style: TextStyle(fontSize: 17),
-              )
-            ],
-          ),
-        ),
         body: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SearchBar(
-                  controller: searchController,
-                  leading: const Padding(
-                    padding: EdgeInsets.only(left: 8, top: 8, bottom: 8),
-                    child: Icon(Icons.search),
-                  ),
-                  onChanged: (newSearch) {
-                    searchText.value = newSearch;
-                  },
-                  trailing: searchController.text != ""
-                      ? [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8),
-                            child: IconButton(
-                                onPressed: () {
-                                  searchController.clear();
-                                  searchText.value = "";
-                                },
-                                icon: const Icon(Icons.clear)),
-                          )
-                        ]
-                      : null,
-                  hintText: "Search for a Badge",
-                ),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SearchBar(
+              controller: searchController,
+              leading: const Padding(
+                padding: EdgeInsets.only(left: 8, top: 8, bottom: 8),
+                child: Icon(Icons.search),
               ),
-              Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: filteredBadges.value.length,
-                  itemBuilder: (context, index) =>
-                      ScoutBadgeListTile(badge: filteredBadges.value[index]),
-                ),
-              ),
-            ],
+              onChanged: (newSearch) {
+                searchText.value = newSearch;
+              },
+              trailing: searchController.text != ""
+                  ? [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: IconButton(
+                            onPressed: () {
+                              searchController.clear();
+                              searchText.value = "";
+                            },
+                            icon: const Icon(Icons.clear)),
+                      )
+                    ]
+                  : null,
+              hintText: "Search for a Badge",
+            ),
           ),
-        ));
+          Expanded(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: filteredBadges.value.length,
+              itemBuilder: (context, index) =>
+                  ScoutBadgeListTile(badge: filteredBadges.value[index]),
+            ),
+          ),
+        ],
+      ),
+    ));
   }
 }
