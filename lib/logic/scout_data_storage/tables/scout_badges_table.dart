@@ -16,6 +16,8 @@ class ScoutBadgeItems extends Table {
   TextColumn get description => text().check(description.isNotValue(""))();
   TextColumn get imageUrl => text().check(imageUrl.isNotValue(""))();
 
+  BoolColumn get isLiked => boolean().withDefault(const Constant(false))();
+
   TextColumn get status =>
       text().map(badgeCompletionStatusConverter).nullable()();
 }
