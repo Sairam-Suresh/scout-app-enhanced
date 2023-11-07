@@ -10,8 +10,20 @@ class Home extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var currentBadges = useState<List<ScoutBadgeItem>>([]);
+    // These are the badges obtained from the Database
+    // We cant use this directly as it is asynchronous, so we use an effect instead
     var scoutBadges = ref.watch(scoutBadgesNotifierProvider);
+
+    // This is the badge list obtained from the scoutBadges variable above
+    // We use a useEffect Hook to get the data and place it in here
+    var currentBadges = useState<List<ScoutBadgeItem>>([]);
+
+    // This is the variable that we use in our widget code
+    // Can be filtered accordingly (e.g. search) and can be reset using the "currentBadges" variable
+    var filteredBadges = useState(currentBadges.value);
+
+    var searchController = useTextEditingController();
+    var searchText = useState("");
 
     useEffect(() {
       if (scoutBadges.hasValue &&
@@ -19,8 +31,17 @@ class Home extends HookConsumerWidget {
           scoutBadges.value!.isNotEmpty) {
         currentBadges.value = scoutBadges.value!;
       }
+
+      filteredBadges.value = [...currentBadges.value];
+
+      if (searchText.value != "") {
+        filteredBadges.value
+            .removeWhere((element) => !element.name.contains(searchText.value));
+        filteredBadges.value = [...filteredBadges.value];
+      }
+
       return null;
-    }, [scoutBadges.hasValue]);
+    }, [scoutBadges, searchText.value]);
 
     return Scaffold(
         floatingActionButton: FloatingActionButton.extended(
@@ -47,22 +68,39 @@ class Home extends HookConsumerWidget {
         body: SafeArea(
           child: Column(
             children: [
-              const Padding(
-                padding: EdgeInsets.all(8.0),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: SearchBar(
-                  leading: Padding(
+                  controller: searchController,
+                  leading: const Padding(
                     padding: EdgeInsets.only(left: 8, top: 8, bottom: 8),
                     child: Icon(Icons.search),
                   ),
+                  onChanged: (newSearch) {
+                    searchText.value = newSearch;
+                  },
+                  trailing: searchController.text != ""
+                      ? [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8),
+                            child: IconButton(
+                                onPressed: () {
+                                  searchController.clear();
+                                  searchText.value = "";
+                                },
+                                icon: const Icon(Icons.clear)),
+                          )
+                        ]
+                      : null,
                   hintText: "Search for a Badge",
                 ),
               ),
               Expanded(
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: currentBadges.value.length,
+                  itemCount: filteredBadges.value.length,
                   itemBuilder: (context, index) =>
-                      ScoutBadgeListTile(badge: currentBadges.value[index]),
+                      ScoutBadgeListTile(badge: filteredBadges.value[index]),
                 ),
               ),
             ],
