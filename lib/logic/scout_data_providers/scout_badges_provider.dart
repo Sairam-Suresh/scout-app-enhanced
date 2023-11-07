@@ -29,6 +29,28 @@ class ScoutBadgesNotifier extends _$ScoutBadgesNotifier {
         .getSingle();
   }
 
+  Future<void> toggleBadgeLikeStatusByUuid(String uuid) async {
+    var badgeToModify = await (db!.select(db!.scoutBadgeItems)
+          ..where((tbl) => tbl.uuid.equals(uuid))
+          ..limit(1))
+        .getSingle();
+
+    var numberOfModifiedRows = await (db!.update(db!.scoutBadgeItems)
+          ..where((t) => t.uuid.equals(uuid)))
+        .write(
+      ScoutBadgeItemsCompanion(
+        isLiked: Value(!badgeToModify.isLiked),
+      ),
+    );
+
+    if (numberOfModifiedRows != 1) {
+      throw Exception(
+          "WARNING: More than one row was affected when the liked status of a badge was toggled.");
+    }
+
+    ref.invalidateSelf();
+  }
+
   Future<void> scrapeScoutsWebsiteAndUpdateDb() async {
     List<String> parsedUrls = [];
     var firstGetAllBadgesCompleter = Completer();
