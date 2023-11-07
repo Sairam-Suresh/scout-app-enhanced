@@ -26,8 +26,19 @@ class Home extends HookConsumerWidget {
     // Can be filtered accordingly (e.g. search) and can be reset using the "currentBadges" variable
     var filteredBadges = useState(currentBadges.value);
 
+    var isScraping = useState(false);
+
     var searchController = useTextEditingController();
     var searchText = useState("");
+
+    useEffect(() {
+      if (scoutBadges.hasValue &&
+          scoutBadges.value?.length != null &&
+          scoutBadges.value!.isNotEmpty) {
+        currentBadges.value = scoutBadges.value!;
+      }
+      return null;
+    }, []);
 
     useEffect(() {
       if (scoutBadges.hasValue &&
@@ -138,6 +149,19 @@ class Home extends HookConsumerWidget {
                   ],
                 ),
               ),
+              if (isScraping.value)
+                const ListTile(
+                  leading: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: Center(
+                        child: SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: CircularProgressIndicator()),
+                      )),
+                  title: Text("Please wait. We are downloading your badges."),
+                ),
               Expanded(
                 child: filteredBadges.value.isNotEmpty
                     ? ListView.builder(
@@ -165,7 +189,9 @@ class Home extends HookConsumerWidget {
                               ],
                             ),
                           )
-                        : const Center(child: CircularProgressIndicator()),
+                        : (!isScraping.value)
+                            ? const Center(child: CircularProgressIndicator())
+                            : Container(),
               ),
             ],
           ),
