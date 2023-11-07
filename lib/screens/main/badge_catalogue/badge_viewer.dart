@@ -37,49 +37,42 @@ class BadgeViewer extends HookConsumerWidget {
                           ),
                         ),
                       ),
-                      if ((badge.data!.completed != null &&
-                              badge.data!.completed != "") ||
-                          (badge.data!.badgeGiven != null &&
-                              badge.data!.badgeGiven != "") ||
-                          (badge.data!.certGiven != null &&
-                              badge.data!.certGiven != ""))
+                      if (badge.data!.status != null)
                         Expanded(
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                if (badge.data!.completed != null &&
-                                    badge.data!.completed != "")
+                                if (badge.data!.status!.completedDate != "")
                                   Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         const Text("Completed on"),
                                         Text(
-                                          badge.data!.completed!,
+                                          badge.data!.status!.completedDate,
                                           style: const TextStyle(fontSize: 30),
                                         )
                                       ]),
-                                if (badge.data!.badgeGiven != null &&
-                                    badge.data!.badgeGiven != "")
+                                if (badge.data!.status!.badgeGivenDate != "")
                                   Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         const Text("Badge given on"),
                                         Text(
-                                          badge.data!.badgeGiven!,
+                                          badge.data!.status!.badgeGivenDate,
                                           style: const TextStyle(fontSize: 30),
                                         )
                                       ]),
-                                if (badge.data!.certGiven != null &&
-                                    badge.data!.certGiven != "")
+                                if (badge.data!.status!.certGivenDate != null &&
+                                    badge.data!.status!.certGivenDate != "")
                                   Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         const Text("Certificate Given On"),
                                         Text(
-                                          badge.data!.certGiven!,
+                                          badge.data!.status!.certGivenDate!,
                                           style: const TextStyle(fontSize: 30),
                                         )
                                       ])

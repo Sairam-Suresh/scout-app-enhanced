@@ -33,7 +33,8 @@ class ScoutBadgeCard extends HookWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(child: Container()),
-                  if (badge.completed != null || badge.completed != "")
+                  if (badge.status?.isCompleted != null &&
+                      badge.status?.isCompleted == true)
                     const CircleAvatar(
                         radius: 12, child: Icon(Icons.check_circle)),
                 ],

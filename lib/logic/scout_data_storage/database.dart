@@ -9,6 +9,8 @@ import 'package:scout_app_enhanced/logic/scout_data_storage/tables/scout_notes_t
 import 'package:scout_app_enhanced/logic/scout_data_storage/tables/scout_reflections_table.dart';
 import 'package:uuid/uuid.dart';
 
+import 'custom_types/badge_completion_status.dart';
+
 part 'database.g.dart';
 
 @DriftDatabase(tables: [ScoutBadgeItems, ScoutNoteItems, ScoutReflectionItems])
