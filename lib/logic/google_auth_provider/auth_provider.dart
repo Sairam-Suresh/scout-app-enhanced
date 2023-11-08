@@ -16,8 +16,17 @@ class GoogleAuth extends _$GoogleAuth {
   }
 
   Future<void> initiateSignIn() async {
-    state = AsyncValue.data(await _googleSignIn.signIn());
-    ref.invalidateSelf();
+    try {
+      var user = await _googleSignIn.signIn();
+      if (user != null) {
+        state = AsyncValue.data(user);
+      } else {
+        throw Exception("Login Failed.");
+      }
+      ref.invalidateSelf();
+    } catch (error, stackTrace) {
+      state = AsyncValue.error(error, stackTrace);
+    }
   }
 
   Future<void> signOut() async {
