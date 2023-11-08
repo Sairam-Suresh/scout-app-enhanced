@@ -128,7 +128,8 @@ class Home extends HookConsumerWidget {
                             .map((e) => Row(
                                   children: [
                                     FilterChip(
-                                      label: Text(e.name),
+                                      label: Text(e.name.replaceFirst(
+                                          e.name[0], e.name[0].toUpperCase())),
                                       selected: filters.value.contains(e),
                                       materialTapTargetSize:
                                           MaterialTapTargetSize.padded,
