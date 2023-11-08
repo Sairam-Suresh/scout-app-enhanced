@@ -62,3 +62,5 @@ app.*.map.json
 /lib/logic/google_auth_provider/auth_provider.g.dart
 /lib/logic/scout_data_storage/custom_types/badge_completion_status.g.dart
 /lib/logic/scout_data_providers/scout_badge_scraping_progress_provider.g.dart
+
+/lib/sensitive.dart
