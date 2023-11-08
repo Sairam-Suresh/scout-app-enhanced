@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:scout_app_enhanced/logic/scout_data_providers/scout_badge_scraping_progress_provider.dart';
 import 'package:scout_app_enhanced/logic/scout_data_providers/scout_badges_provider.dart';
 import 'package:scout_app_enhanced/logic/scout_data_storage/database.dart';
 import 'package:scout_app_enhanced/widgets/scout_badge_list_tile.dart';
@@ -26,17 +27,27 @@ class Home extends HookConsumerWidget {
     // Can be filtered accordingly (e.g. search) and can be reset using the "currentBadges" variable
     var filteredBadges = useState(currentBadges.value);
 
-    var isScraping = useState(false);
+    var scrapingData = ref.watch(scoutBadgeScrapingProgressProvider);
 
     var searchController = useTextEditingController();
     var searchText = useState("");
 
     useEffect(() {
-      if (scoutBadges.hasValue &&
-          scoutBadges.value?.length != null &&
-          scoutBadges.value!.isNotEmpty) {
-        currentBadges.value = scoutBadges.value!;
-      }
+      scoutBadges.when(
+        data: (data) {
+          if (data.isNotEmpty) {
+            currentBadges.value = scoutBadges.value!;
+          }
+        },
+        error: (error, stackTrace) {},
+        loading: () {
+          Future(() {
+            ref
+                .read(scoutBadgesNotifierProvider.notifier)
+                .scrapeScoutsWebsiteAndUpdateDb();
+          });
+        },
+      );
       return null;
     }, []);
 
@@ -149,26 +160,42 @@ class Home extends HookConsumerWidget {
                   ],
                 ),
               ),
-              if (isScraping.value)
-                const ListTile(
-                  leading: SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: Center(
-                        child: SizedBox(
-                            height: 40,
-                            width: 40,
-                            child: CircularProgressIndicator()),
-                      )),
-                  title: Text("Please wait. We are downloading your badges."),
-                ),
               Expanded(
                 child: filteredBadges.value.isNotEmpty
                     ? ListView.builder(
                         shrinkWrap: true,
-                        itemCount: filteredBadges.value.length,
-                        itemBuilder: (context, index) => ScoutBadgeListTile(
-                            badge: filteredBadges.value[index]),
+                        itemCount: (scrapingData == null)
+                            ? filteredBadges.value.length
+                            : filteredBadges.value.length + 1,
+                        itemBuilder: (context, index) {
+                          if (scrapingData == null) {
+                            return ScoutBadgeListTile(
+                                badge: filteredBadges.value[index]);
+                          } else {
+                            if (index == 0) {
+                              return ListTile(
+                                leading: const SizedBox(
+                                    width: 50,
+                                    height: 50,
+                                    child: Center(
+                                      child: SizedBox(
+                                          height: 40,
+                                          width: 40,
+                                          child: CircularProgressIndicator()),
+                                    )),
+                                title: const Text(
+                                    "Please wait as we load your badges."),
+                                subtitle: (scrapingData.total != null)
+                                    ? Text(
+                                        "Progress: ${scrapingData.parsed}/${scrapingData.total} badges loaded.")
+                                    : null,
+                              );
+                            } else {
+                              return ScoutBadgeListTile(
+                                  badge: filteredBadges.value[index]);
+                            }
+                          }
+                        },
                       )
                     : (searchText.value != "" || filters.value.isNotEmpty)
                         ? const Padding(
@@ -189,7 +216,7 @@ class Home extends HookConsumerWidget {
                               ],
                             ),
                           )
-                        : (!isScraping.value)
+                        : (!(scrapingData != null))
                             ? const Center(child: CircularProgressIndicator())
                             : Container(),
               ),

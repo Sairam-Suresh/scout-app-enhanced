@@ -68,7 +68,7 @@ final _router = GoRouter(
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) =>
                         const Home(),
-                maintainState: false),
+                maintainState: true),
           ),
           GoRoute(
             path: '/experiences',
@@ -77,7 +77,7 @@ final _router = GoRouter(
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) =>
                         const Experiences(),
-                maintainState: false),
+                maintainState: true),
           ),
           GoRoute(
             path: '/announcements',
@@ -86,7 +86,7 @@ final _router = GoRouter(
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) =>
                         const Announcements(),
-                maintainState: false),
+                maintainState: true),
           ),
           GoRoute(
             path: '/settings',
@@ -95,7 +95,7 @@ final _router = GoRouter(
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) =>
                         const Settings(),
-                maintainState: false),
+                maintainState: true),
           ),
         ])
   ],

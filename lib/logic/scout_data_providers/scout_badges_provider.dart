@@ -6,6 +6,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:quiver/iterables.dart' show partition;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:scout_app_enhanced/logic/database_provider/scout_db_provider.dart';
+import 'package:scout_app_enhanced/logic/scout_data_providers/scout_badge_scraping_progress_provider.dart';
 import 'package:scout_app_enhanced/logic/scout_data_storage/database.dart';
 import 'package:uuid/uuid.dart';
 
@@ -52,6 +53,7 @@ class ScoutBadgesNotifier extends _$ScoutBadgesNotifier {
   }
 
   Future<void> scrapeScoutsWebsiteAndUpdateDb() async {
+    ref.read(scoutBadgeScrapingProgressProvider.notifier).arm();
     List<String> parsedUrls = [];
     var firstGetAllBadgesCompleter = Completer();
 
@@ -80,16 +82,31 @@ class ScoutBadgesNotifier extends _$ScoutBadgesNotifier {
               """);
     parsedUrls = List<String>.from(jsonDecode(urlsObtained));
 
+    await headlessWebView.dispose();
     // Filter out the garbage
     parsedUrls.removeWhere((element) =>
         element == "https://scout.sg/" ||
         element == "http://intranet.scout.org.sg/");
 
-    await headlessWebView.dispose();
+    List<String>? alreadyParsedUrlsFromDb =
+        state.asData?.value.map((e) => e.url).toList();
 
-    var urls = parsedUrls.map((e) => e).toList();
+    if (alreadyParsedUrlsFromDb != null) {
+      parsedUrls.removeWhere((element) => alreadyParsedUrlsFromDb.contains(
+          element)); // Remove all the urls that have been parsed already.
+    }
 
-    var splitUrls = partition(urls, 2).toList();
+    if (parsedUrls.isEmpty) {
+      // If there are no parsedUrls, then there is nothing to be done
+      ref.read(scoutBadgeScrapingProgressProvider.notifier).completed();
+      return;
+    }
+
+    ref
+        .read(scoutBadgeScrapingProgressProvider.notifier)
+        .initialiseTotal(totalToParse: parsedUrls.length);
+
+    var splitUrls = partition(parsedUrls, 2).toList();
 
     for (List<String> i in splitUrls) {
       for (ScoutBadgeItemsCompanion badge
@@ -99,6 +116,7 @@ class ScoutBadgesNotifier extends _$ScoutBadgesNotifier {
         while (true) {
           try {
             db!.into(db!.scoutBadgeItems).insert(badge);
+            ref.read(scoutBadgeScrapingProgressProvider.notifier).parsedOne();
             ref.invalidateSelf();
             dbUpdateAttempts++;
             break;
@@ -114,6 +132,8 @@ class ScoutBadgesNotifier extends _$ScoutBadgesNotifier {
         }
       }
     }
+
+    ref.read(scoutBadgeScrapingProgressProvider.notifier).completed();
   }
 
   Future<ScoutBadgeItemsCompanion> _parseScoutDataUrl(String i) async {
