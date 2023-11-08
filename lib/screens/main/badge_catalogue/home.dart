@@ -184,16 +184,18 @@ class Home extends HookConsumerWidget {
                                           width: 40,
                                           child: CircularProgressIndicator()),
                                     )),
-                                title: const Text(
-                                    "Please wait as we load your badges."),
-                                subtitle: (scrapingData.total != null)
+                                title: Text((scrapingData.medium ==
+                                        BadgeScrapingMedium.scoutsWebsite)
+                                    ? "Please wait as we fetch all badges."
+                                    : "Please wait as we sync your badges."),
+                                subtitle: (scrapingData.progress != null)
                                     ? Text(
-                                        "Progress: ${scrapingData.parsed}/${scrapingData.total} badges loaded.")
+                                        "Progress: ${scrapingData.progress!.parsed}/${scrapingData.progress!.total} badges loaded.")
                                     : null,
                               );
                             } else {
                               return ScoutBadgeListTile(
-                                  badge: filteredBadges.value[index]);
+                                  badge: filteredBadges.value[index - 1]);
                             }
                           }
                         },

@@ -53,7 +53,13 @@ class ScoutBadgesNotifier extends _$ScoutBadgesNotifier {
   }
 
   Future<void> scrapeScoutsWebsiteAndUpdateDb() async {
-    ref.read(scoutBadgeScrapingProgressProvider.notifier).arm();
+    ref
+        .read(scoutBadgeScrapingProgressProvider.notifier)
+        .arm(BadgeScrapingMedium.scoutsWebsite);
+    ref
+        .read(scoutBadgeScrapingProgressProvider.notifier)
+        .markDownloadAs(BadgeScrapingStatus.starting);
+
     List<String> parsedUrls = [];
     var firstGetAllBadgesCompleter = Completer();
 
@@ -106,6 +112,10 @@ class ScoutBadgesNotifier extends _$ScoutBadgesNotifier {
         .read(scoutBadgeScrapingProgressProvider.notifier)
         .initialiseTotal(totalToParse: parsedUrls.length);
 
+    ref
+        .read(scoutBadgeScrapingProgressProvider.notifier)
+        .markDownloadAs(BadgeScrapingStatus.downloading);
+
     var splitUrls = partition(parsedUrls, 2).toList();
 
     for (List<String> i in splitUrls) {
@@ -132,6 +142,10 @@ class ScoutBadgesNotifier extends _$ScoutBadgesNotifier {
         }
       }
     }
+
+    ref
+        .read(scoutBadgeScrapingProgressProvider.notifier)
+        .markDownloadAs(BadgeScrapingStatus.completed);
 
     ref.read(scoutBadgeScrapingProgressProvider.notifier).completed();
   }
